@@ -127,6 +127,9 @@ class WorkspaceFolderEntry {
   }
 }
 
+const testExplorerIsEnabled = (workspace: vscode.WorkspaceFolder) =>
+  vscode.workspace.getConfiguration("robotcode.testExplorer", workspace).get<boolean>("enabled");
+
 export class TestControllerManager {
   private _disposables: vscode.Disposable;
   public readonly testController: vscode.TestController;
@@ -193,6 +196,17 @@ export class TestControllerManager {
           (_) => undefined,
           (_) => undefined,
         );
+      }),
+      vscode.workspace.onDidChangeConfiguration((event) => {
+        for (const ws of vscode.workspace.workspaceFolders ?? []) {
+          if (event.affectsConfiguration("robotcode.testExplorer", ws)) {
+            if (testExplorerIsEnabled(ws)) {
+              this.refresh().catch((_) => undefined);
+            } else {
+              if (ws) this.removeWorkspaceFolderItems(ws);
+            }
+          }
+        }
       }),
       vscode.workspace.onDidCloseTextDocument((document) => this.refreshDocument(document)),
       vscode.workspace.onDidSaveTextDocument((document) => this.refreshDocument(document)),
@@ -884,7 +898,7 @@ export class TestControllerManager {
       const addedIds = new Set<string>();
 
       for (const folder of vscode.workspace.workspaceFolders ?? []) {
-        if (token?.isCancellationRequested) return;
+        if (token?.isCancellationRequested || !testExplorerIsEnabled(folder)) return;
 
         if (this.robotTestItems.get(folder) === undefined || !this.robotTestItems.get(folder)?.valid) {
           const items = await this.getTestsFromWorkspaceFolder(folder, token);
