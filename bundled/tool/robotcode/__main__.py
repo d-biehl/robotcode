@@ -2,6 +2,7 @@ import os
 import pathlib
 import site
 import sys
+from dotenv import load_dotenv
 
 
 def update_sys_path(path_to_add: str, strategy: str) -> None:
@@ -17,6 +18,7 @@ def update_sys_path(path_to_add: str, strategy: str) -> None:
 
 
 if __name__ == "__main__":
+    load_dotenv()
     update_sys_path(
         os.fspath(pathlib.Path(__file__).parent.parent.parent / "libs"),
         os.getenv("LS_IMPORT_STRATEGY", "useBundled"),

@@ -79,6 +79,7 @@ lint = ["robotframework-robocop>=2.0.0"]
 tidy = ["robotframework-tidy>=2.0.0"]
 rest = ["docutils"]
 colored = ["rich"]
+env = ["python-dotenv==1.0.0"]
 all = [
   "robotcode-debugger==0.83.3",
   "robotcode-language-server==0.83.3",
