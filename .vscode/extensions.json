@@ -9,6 +9,6 @@
 		"gruntfuggly.todo-tree",
 		"charliermarsh.ruff",
 		"ms-python.black-formatter",
-		"ms-python.mypy-type-checker"
+		"ms-python.mypy-type-checker",
 	]
 }

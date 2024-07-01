@@ -159,3 +159,11 @@
 img[src*="shields.io"] {
   display: inline;
 }
+
+/* Inline icon */
+.inline-icon {
+  width: 26px;
+  height: 26px;
+  vertical-align: middle;
+  display: inline;
+}

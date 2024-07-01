@@ -1,3 +1,1 @@
-# Get Started
-
-TODO
+# Getting Started
